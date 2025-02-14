@@ -1,0 +1,32 @@
+body {
+  background: linear-gradient(to right, #ece9e6, #ffffff);
+  font-family: 'Arial', sans-serif;
+}
+
+header {
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  max-width: 900px;
+  margin: auto;
+  border-radius: 10px;
+  background: #ffffff;
+  border: none;
+}
+
+h3 {
+  font-size: 22px;
+}
+
+.table thead {
+  font-weight: bold;
+}
+
+.table th, .table td {
+  text-align: center;
+}
+
+footer {
+  font-size: 14px;
+}

@@ -1,0 +1,173 @@
+body {
+  background: linear-gradient(to right, #ffffff, #ffffff);
+  font-family: 'Arial', sans-serif;
+}
+
+.card {
+  max-width: 600px;
+  margin: auto;
+  border-radius: 10px;
+  background: #ffffff;
+  border: none;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+textarea {
+  resize: none;
+  height: 120px;
+}
+
+.btn-primary {
+  background-color: #3E4095;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: scale(1.02);
+}
+
+footer {
+  font-size: 14px;
+}
+
+.titulo{
+  color: #3E4095;
+  text-align: center;
+}
+/* Estilização da Navbar */
+
+/* Estilização dos botões personalizados */
+.btn-custom {
+    background: none;
+    border: none;
+    color: #3F3F9F;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.btn-custom:hover {
+    color: #29297A;
+}
+
+/* Estilização da Navbar */
+.decoration {
+  background-color: #f8f9fa; /* Cor de fundo da navbar */
+  padding: 10px 20px;
+  border-bottom: 5px solid #3F3F9F;
+}
+
+/* Estilização dos botões personalizados */
+.btn-custom {
+  background: none;
+  border: none;
+  color: #3F3F9F;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+.btn-custom:hover {
+  color: #29297A;
+}
+
+/* Estilização do formulário */
+.card {
+  max-width: 600px;
+  margin: auto;
+}
+
+.titulo {
+  color: #3F3F9F;
+  text-align: center;
+  margin-bottom: 1px;
+}
+
+.form-label {
+  font-size: 14px;
+}
+
+/* Ajuste do rodapé */
+footer {
+  font-size: 14px;
+}
+
+/* CARDE DE INFORMAÇAO */
+.painel-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px; /* Reduzindo o espaço entre os cartões */
+  margin-bottom: 50px; /* Maior afastamento da tabela */
+}
+
+.painel-card {
+  background: linear-gradient(135deg, #3E4095, #0056b3);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+  width: 140px; /* Mantendo os cards menores */
+}
+
+.painel-card:hover {
+  transform: translateY(-5px);
+}
+
+.painel-card i {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.painel-card h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.painel-card p {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 2px 0 0;
+}
+
+    /* Painel do Administrador com tamanho fixo e responsivo */
+    .box-painel {
+      width: 1196px;
+      min-height: 554px;
+      max-width: 100%; /* Responsivo em telas menores */
+      margin: 0 auto; /* Centraliza */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      background: white;
+  }
+
+  /* Ajuste para telas menores */
+  @media (max-width: 1200px) {
+      .box-painel {
+          width: 95%;
+      }
+  }
+
+  @media (max-width: 768px) {
+      .box-painel {
+          padding: 15px;
+      }
+  }

@@ -1,0 +1,45 @@
+{% extends "base/base.html" %}
+
+{% block title %}Abrir Chamado{% endblock %}
+
+{% block content %}
+<div class="card shadow-lg p-4">
+    <h2 class="titulo"><i class="bi bi-pencil-square"></i> Abertura de Chamados</h2>
+
+    <form id="conteudo" method="POST" action="/abrir_chamado" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="nome" class="form-label fw-bold">Nome:</label>
+            <input type="text" id="nome" name="nome" class="form-control" placeholder="Digite seu nome completo" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="contato" class="form-label fw-bold">Contato:</label>
+            <input type="text" id="contato" name="contato" class="form-control" placeholder="Telefone ou e-mail" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="setor" class="form-label fw-bold">Setor:</label>
+            <select id="setor" name="setor" class="form-select" required>
+                <option value="" disabled selected>Selecione o setor responsável</option>
+                <option value="RH">Recursos Humanos</option>
+                <option value="SEMAF">Secretaria - Administração e Finanças</option>
+                <option value="SEMAS">Secretaria - Assistência Social</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="descricao" class="form-label fw-bold">Descrição do Problema:</label>
+            <textarea id="descricao" name="descricao" class="form-control" placeholder="Explique detalhadamente o problema" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="arquivo" class="form-label fw-bold">Anexar Foto:</label>
+            <input type="file" id="arquivo" name="arquivo" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 btn-lg">
+            <i class="bi bi-send"></i> Enviar Chamado
+        </button>
+    </form>
+</div>
+{% endblock %}

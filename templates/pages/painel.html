@@ -1,0 +1,138 @@
+{% extends "base/base.html" %}
+
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="text-center titulo">Painel do Administrador</h3>
+
+    <div class="container mt-4">
+        <div class="painel-container">
+            <div class="painel-card">
+                <i class="bi bi-clipboard-check"></i>
+                <h4>{{ resumos.total_chamados }}</h4>
+                <p>Total de Chamados</p>
+            </div>
+            <div class="painel-card">
+                <i class="bi bi-plus-circle"></i>
+                <h4>{{ resumos.chamados_hoje }}</h4>
+                <p>Chamados Novos</p>
+            </div>
+            <div class="painel-card">
+                <i class="bi bi-hourglass-split"></i>
+                <h4>{{ resumos.chamados_pendentes }}</h4>
+                <p>Pendentes</p>
+            </div>
+            <div class="painel-card">
+                <i class="bi bi-arrow-repeat"></i>
+                <h4>{{ resumos.chamados_em_andamento }}</h4>
+                <p>Em Andamento</p>
+            </div>
+            <div class="painel-card">
+                <i class="bi bi-check-circle"></i>
+                <h4>{{ resumos.chamados_concluidos }}</h4>
+                <p>Fechados</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg p-4 mb-4">
+        <div class="row">
+             <div class="col-md-12 mb-3">
+                <label class="form-label">Status:</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input status-filter" type="checkbox" id="filtroPendente" value="1" checked>
+                    <label class="form-check-label" for="filtroPendente">Pendente</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input status-filter" type="checkbox" id="filtroEmAndamento" value="2" checked>
+                    <label class="form-check-label" for="filtroEmAndamento">Em Andamento</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input status-filter" type="checkbox" id="filtroConcluido" value="3" checked>
+                    <label class="form-check-label" for="filtroConcluido">Concluído</label>
+                </div>
+            </div>
+             <!--
+            <form action="/chamados/filtrar" method="POST" id="formFiltro"></form>
+                <div class="col-md-3">
+                    <label class="form-label">Tipo de Data:</label>
+                    <select class="form-select" id="tipoData">
+                        <option value="abertura">Data de Abertura</option>
+                        <option value="conclusao">Data de Conclusão</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Data Inicial:</label>
+                    <input type="date" class="form-control" id="dataInicio">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Data Final:</label>
+                    <input type="date" class="form-control" id="dataFim">
+                </div>
+                
+               <div class="col-md-3">
+                    <label class="form-label">Filtrar por Setor:</label>
+                    <select id="filtroSetor" class="form-control">
+                        <option value="">Selecione um setor</option>
+                        {% for setor in setores %}
+                            <option value="{{ setor }}">{{ setor }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+           
+
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary w-100" id="btnFiltrar">
+                        <i class="bi bi-filter"></i> Filtrar
+                    </button>                
+                </div>
+            </form> 
+             -->
+        </div>
+    </div>
+
+    <div class="card shadow-lg p-4 box-painel">
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Requerente</th>
+                        <th>Status</th>
+                        <th>Setor</th>
+                        <th>Descrição</th>
+                        <th>Data de Abertura</th>
+                        <th>Data de Conclusão</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaChamados">
+                    {% for chamado in chamados %}
+                        <tr class="chamado-row" data-status="{{ chamado.status }}" ondblclick="window.location.href='/chamado/{{ chamado.id }}'">
+                            <td>{{ chamado.id }}</td>
+                            <td>{{ chamado.nome }}</td>
+                            <td>
+                                {% if chamado.status == 1 %}
+                                    <span class="badge bg-warning">Pendente</span>
+                                {% elif chamado.status == 2 %}
+                                    <span class="badge bg-primary">Em Andamento</span>
+                                {% elif chamado.status == 3 %}
+                                    <span class="badge bg-success">Concluído</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Desconhecido</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ chamado.setor }}</td>
+                            <td>{{ chamado.descricao }}</td>
+                            <td>{{ chamado.data_criacao.strftime('%d/%m/%Y %H:%M') }}</td>
+                            <td>{{ chamado.data_conclusao.strftime('%d/%m/%Y %H:%M') if chamado.data_conclusao else 'Em aberto' }}</td>
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

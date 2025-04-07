@@ -4,7 +4,7 @@ Sistema de chamado em alpha para a prefeitura de Itarana.
 
 ## Requisitos
 
-- Python instalado (versão 3.x recomendada)
+- Python instalado (versão 3.12 recomendada)
 - Pip instalado (gerenciador de pacotes do Python)
 
 ## Passo a passo para execução
@@ -50,4 +50,7 @@ Caso deseje sair do ambiente virtual, use o comando:
 deactivate
 ```
 
+### Tela de Cadastro para o Painel Administrativo ###
+
+" http://127.0.0.1:5001/aplics/chamado/cadastro "
 

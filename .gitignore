@@ -163,3 +163,7 @@ cython_debug/
 DataBases/
 /DataBases
 ./DataBases
+
+config/
+/config
+./config

@@ -21,11 +21,36 @@
             <label for="setor" class="form-label fw-bold">Setor:</label>
             <select id="setor" name="setor" class="form-select" required>
                 <option value="" disabled selected>Selecione o setor responsável</option>
+                <option value="ALMOXARIFADO">Almoxarifado e Patrimônio</option>
+                <option value="BIBLIOTECA">Biblioteca</option>
+                <option value="COMPRAS">Compras</option>
+                <option value="CONTABILIDADE">Contabilidade</option>
+                <option value="CONTROLE_INTERNO">Controle Interno</option>
+                <option value="CONVENIOS">Convênios</option>
+                <option value="CRAS">CRAS</option>
+                <option value="CREAS">CREAS</option>
+                <option value="FISCALIZACAO_CONTRATOS">Comissão de Fiscalização de Contratos</option>
+                <option value="CPC">Comissão de Planejamento das Contratações</option>
+                <option value="GABINETE_PREFEITO">Gabinete do Prefeito</option>
+                <option value="INFORMATICA">Informática</option>
+                <option value="LICITACOES_CONTRATOS">Licitações e Contratos</option>
+                <option value="NAC">NAC</option>
+                <option value="PROCURADORIA">Procuradoria</option>
+                <option value="PROTOCOLO">Protocolo</option>
                 <option value="RH">Recursos Humanos</option>
-                <option value="SEMAF">Secretaria - Administração e Finanças</option>
-                <option value="SEMAS">Secretaria - Assistência Social</option>
+                <option value="SAAE">SAAE</option>
+                <option value="SEMAMA">Secretaria Municipal de Agricultura e Meio Ambiente</option>
+                <option value="SEMAF">Secretaria Municipal de Administração e Finanças</option>
+                <option value="SEMAS">Secretaria Municipal de Assistência Social</option>
+                <option value="SEDCULT">Secretaria Municipal de Desporto, Cultura e Turismo</option>
+                <option value="SEMED">Secretaria Municipal de Educação</option>
+                <option value="SEMUS">Secretaria Municipal de Saúde</option>
+                <option value="SMTOSU">Secretaria Municipal de Transportes, Obras e Serviços Urbanos</option>
+                <option value="TESOURARIA">Tesouraria</option>
+                <option value="TRIBUTACAO">Tributação</option>
             </select>
         </div>
+        
 
         <div class="mb-3">
             <label for="descricao" class="form-label fw-bold">Descrição do Problema:</label>
@@ -33,13 +58,43 @@
         </div>
 
         <div class="mb-3">
-            <label for="arquivo" class="form-label fw-bold">Anexar Foto:</label>
+            <label for="arquivo" class="form-label fw-bold">Anexar Arquivo:</label>
             <input type="file" id="arquivo" name="arquivo" class="form-control">
+            <div id="file-error" class="text-danger mt-2" style="display: none;"></div>
+            <button type="button" id="clear-file" class="btn btn-primary mt-1">Limpar Anexo</button>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 btn-lg">
+        <!-- reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="6LeoVOEqAAAAANyXGtB7x2dGWr-Xh0jM59FW7hqU" data-callback="removeError"></div>
+        <div id="recaptcha-error" class="text-danger fw-bold mt-2 d-none">
+            <i class="bi bi-exclamation-circle"></i> Por favor, complete o reCAPTCHA antes de enviar.
+        </div>
+
+        <br>
+
+        <button type="submit" id="submit-btn" class="btn btn-primary w-100 btn-lg">
             <i class="bi bi-send"></i> Enviar Chamado
         </button>
+        <div id="success-message" class="text-center mt-3 text-success fw-bold d-none">
+            <i class="bi bi-check-circle"></i> Chamado Enviado!
+        </div>
     </form>
 </div>
+
+<!-- Alerta do chamado sendo aberto -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+    <div id="success-toast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="bi bi-check-circle"></i> Chamado enviado com sucesso!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 {% endblock %}

@@ -5,7 +5,8 @@ from app.models import buscar_chamados_ativos, abrir_chamado, excluir_chamado, r
 from app.db import conectar_bd
 import os
 from io import BytesIO
-from app.email_service import send_email 
+from app.email_service import send_email
+import mysql.connector
 
 
 def configure_routes(app):
@@ -15,22 +16,31 @@ def configure_routes(app):
         chamados = buscar_chamados_ativos()
         return render_template('pages/abrir_chamado.html', chamados=chamados)
 
+    EXTENSOES_PERMITIDAS = {'.png', '.jpg', '.jpeg', '.gif', '.pdf', '.doc', '.docx'}
+
     @app.route('/abrir_chamado', methods=['POST'])
     def abrir_chamado_route():
         nome = request.form['nome']
-        contato = request.form['contato'] 
+        contato = request.form['contato']
         setor = request.form['setor']
         descricao = request.form['descricao']
         arquivo = request.files['arquivo']
         status = 1
 
-        if arquivo:
-            arquivo_blob = arquivo.read()
+        arquivo_blob = None
+        arquivo_nome = None
+        arquivo_extensao = None
+
+        if arquivo and arquivo.filename:
             arquivo_nome, arquivo_extensao = os.path.splitext(arquivo.filename)
-        else:
-            arquivo_blob = None
-            arquivo_nome = None
-            arquivo_extensao = None
+            arquivo_extensao = arquivo_extensao.lower()  
+
+            if arquivo_extensao not in EXTENSOES_PERMITIDAS:
+                # print('Tipo de arquivo não permitido. Envie apenas imagens, PDFs ou documentos do Word.')
+                flash('Tipo de arquivo não permitido. Envie apenas imagens, PDFs ou documentos do Word.', 'danger')
+                return redirect('/')
+
+            arquivo_blob = arquivo.read()
 
         chamado_id = abrir_chamado(nome, contato, setor, descricao, arquivo_blob, arquivo_nome, arquivo_extensao, status)
 
@@ -51,10 +61,11 @@ def configure_routes(app):
         Equipe de Suporte
         """
 
-        send_email(contato, subject, message)  
+        send_email(contato, subject, message)
 
         flash('Chamado aberto com sucesso! Um e-mail de confirmação foi enviado.', 'success')
         return redirect('/')
+
 
     @app.route('/excluir_chamado/<int:id>', methods=['POST'])
     def excluir_chamado_route(id):
@@ -133,7 +144,10 @@ def configure_routes(app):
     def detalhes_chamado(id):
         if request.method == 'POST':
             novo_status = int(request.form['status'])
-            atualizar_status_chamado(id, novo_status)
+            
+            conclusao = request.form.get('conclusao')
+            
+            atualizar_status_chamado(id, novo_status, conclusao)
             
             if novo_status == 3:
                 chamado = buscar_chamado_por_id(id)
@@ -153,9 +167,11 @@ def configure_routes(app):
                     - Código: {id}
                     - Setor: {setor}
                     - Descrição: {descricao}
-
+                    - Conclusão: {conclusao}
+                    
                     Qualquer problema futuro, estaremos à disposição.
-
+                    Agradecemos por utilizar nosso sistema de chamados.
+                    
                     Atenciosamente,  
                     Equipe de Suporte
                     """
@@ -203,21 +219,25 @@ def configure_routes(app):
         return redirect(f'/chamado/{id}')
 
 
-    @app.route('/chamados/filtrar', methods=['POST'])
+    @app.route('/painel/adm/filtrar', methods=['POST'])
     def filtrar_chamados():
-        data = request.json
-        data_inicio = data.get('data_inicio')
-        data_fim = data.get('data_fim')
-        setor = data.get('setor')
-        tipo_data = data.get('tipo_data', 'abertura')
-
         try:
+            data = request.get_json()  # Obtém os dados do JSON enviado pelo fetch
+            data_inicio = data.get('data_inicio')
+            data_fim = data.get('data_fim')
+            setor = data.get('setor')
+            tipo_data = data.get('tipo_data', 'abertura')
+
             chamados = buscar_chamados_filtrados(
                 data_inicio=data_inicio,
                 data_fim=data_fim,
                 setor=setor,
                 tipo_data=tipo_data
             )
+
             return jsonify(chamados)
-        except ValueError as e:
-            return jsonify({'erro': f'Erro ao processar os filtros: {str(e)}'}), 400
+
+        except mysql.connector.Error as e:
+            return jsonify({'erro': f'Erro no banco de dados: {str(e)}'}), 500
+        except Exception as e:
+            return jsonify({'erro': f'Erro inesperado: {str(e)}'}), 400

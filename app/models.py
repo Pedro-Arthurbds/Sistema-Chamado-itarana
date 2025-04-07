@@ -72,14 +72,23 @@ def buscar_chamado_por_id(id):
     conexao.close()
     return chamado
 
-def atualizar_status_chamado(id, novo_status):
+def atualizar_status_chamado(id, novo_status, conclusao=None):
     conexao = conectar_bd()
     cursor = conexao.cursor()
-    cursor.execute("""
-        UPDATE chamados 
-        SET status = %s
-        WHERE id = %s
-    """, (novo_status, id))
+    
+    if conclusao is not None:
+        cursor.execute("""
+            UPDATE chamados  
+            SET status = %s, DESC_CONCLUSAO = %s
+            WHERE id = %s
+        """, (novo_status, conclusao, id))
+    else:
+        cursor.execute("""
+            UPDATE chamados  
+            SET status = %s
+            WHERE id = %s
+        """, (novo_status, id))
+    
     conexao.commit()
     cursor.close()
     conexao.close()
@@ -111,16 +120,22 @@ from datetime import datetime
 def buscar_chamados_filtrados(data_inicio=None, data_fim=None, setor=None, tipo_data='abertura'):
     conexao = conectar_bd()
     cursor = conexao.cursor(dictionary=True)
-    
+
     query = "SELECT * FROM chamados WHERE ativo = 'S'"
+    
+    filtros = []
     
     if data_inicio and data_fim:
         campo_data = 'data_criacao' if tipo_data == 'abertura' else 'data_conclusao'
-        query += f" AND DATE({campo_data}) BETWEEN '{data_inicio}' AND '{data_fim}'"
+        filtros.append(f"DATE({campo_data}) BETWEEN '{data_inicio}' AND '{data_fim}'")
 
     if setor:
-        query += f" AND setor = '{setor}'"
-    
+        filtros.append(f"setor = '{setor}'")
+
+    if filtros:
+        query += " AND " + " AND ".join(filtros) 
+
+    print(query)  
     cursor.execute(query)
     chamados = cursor.fetchall()
 
@@ -136,11 +151,9 @@ def buscar_chamados_filtrados(data_inicio=None, data_fim=None, setor=None, tipo_
                         value = value.decode('latin1')
                     except UnicodeDecodeError:
                         value = str(value)
-           
             chamado_dict[key] = value
         chamados_serializaveis.append(chamado_dict)
-    print(query)
-    print(chamados_serializaveis)
+
     cursor.close()
     conexao.close()
 

@@ -53,42 +53,43 @@
                     <label class="form-check-label" for="filtroConcluido">Concluído</label>
                 </div>
             </div>
-             <!--
-            <form action="/chamados/filtrar" method="POST" id="formFiltro"></form>
-                <div class="col-md-3">
-                    <label class="form-label">Tipo de Data:</label>
-                    <select class="form-select" id="tipoData">
-                        <option value="abertura">Data de Abertura</option>
-                        <option value="conclusao">Data de Conclusão</option>
-                    </select>
+            <form id="formFiltro">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="form-label">Tipo de Data:</label>
+                        <select class="form-select" id="tipoData" name="tipo_data">
+                            <option value="abertura">Data de Abertura</option>
+                            <option value="conclusao">Data de Conclusão</option>
+                        </select>
+                    </div>
+            
+                    <div class="col-md-3">
+                        <label class="form-label">Data Inicial:</label>
+                        <input type="date" class="form-control" id="dataInicio" name="data_inicio">
+                    </div>
+            
+                    <div class="col-md-3">
+                        <label class="form-label">Data Final:</label>
+                        <input type="date" class="form-control" id="dataFim" name="data_fim">
+                    </div>
+            
+                    <div class="col-md-3">
+                        <label class="form-label">Filtrar por Setor:</label>
+                        <select id="filtroSetor" name="setor" class="form-control">
+                            <option value="">Selecione um setor</option>
+                            {% for setor in setores %}
+                                <option value="{{ setor }}">{{ setor }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+            
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-primary w-100" id="btnFiltrar">
+                            <i class="bi bi-filter"></i> Filtrar
+                        </button>                
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">Data Inicial:</label>
-                    <input type="date" class="form-control" id="dataInicio">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Data Final:</label>
-                    <input type="date" class="form-control" id="dataFim">
-                </div>
-                
-               <div class="col-md-3">
-                    <label class="form-label">Filtrar por Setor:</label>
-                    <select id="filtroSetor" class="form-control">
-                        <option value="">Selecione um setor</option>
-                        {% for setor in setores %}
-                            <option value="{{ setor }}">{{ setor }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-           
-
-                <div class="col-md-3 d-flex align-items-end">
-                    <button type="button" class="btn btn-primary w-100" id="btnFiltrar">
-                        <i class="bi bi-filter"></i> Filtrar
-                    </button>                
-                </div>
-            </form> 
-             -->
+            </form>
         </div>
     </div>
 
@@ -102,8 +103,8 @@
                         <th>Status</th>
                         <th>Setor</th>
                         <th>Descrição</th>
-                        <th>Data de Abertura</th>
-                        <th>Data de Conclusão</th>
+                        <th onclick="sortTable(5)" style="cursor: pointer;">Data de Abertura</th>
+                        <th onclick="sortTable(6)" style="cursor: pointer;">Data de Conclusão</th>
                     </tr>
                 </thead>
                 <tbody id="tabelaChamados">
@@ -134,5 +135,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}
